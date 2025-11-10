@@ -38,13 +38,14 @@ if (string.IsNullOrWhiteSpace(appSettings.Paths.InstallRoot))
     appSettings.Paths.ToolsDirectory = "Tools";
 }
 
-// Build host with DI
-var host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((context, services) =>
+// Build host with DI - simple configuration without appsettings.json
+var host = new HostBuilder()
+    .ConfigureServices(services =>
     {
+        // Simple console logging
         services.AddLogging(builder =>
         {
-            builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+            builder.SetMinimumLevel(LogLevel.Information);
             builder.AddConsole();
         });
 
